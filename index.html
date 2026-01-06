@@ -7,11 +7,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --oatmeal-bg: #f2ede4; /* 燕麥色背景 */
-            --oatmeal-dark: #e5ddd0;
-            --text-color: #5a544b;
-            --accent-color: #a68b6d;
-            --white: #ffffff;
+            --oatmeal-bg: #f5f0e9; 
+            --text-color: #5c544d;
+            --accent-color: #b5a18b;
+            --card-white: #ffffff;
         }
 
         body {
@@ -27,131 +26,130 @@
         }
 
         #quiz-container {
-            background-color: var(--white);
+            background-color: var(--card-white);
             max-width: 500px;
             width: 100%;
             padding: 40px;
-            border-radius: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border-radius: 40px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.03);
             text-align: center;
         }
 
-        h1 { font-size: 1.8rem; margin-bottom: 10px; color: var(--accent-color); }
-        p.subtitle { margin-bottom: 30px; opacity: 0.8; }
+        h1 { font-size: 1.8rem; color: var(--accent-color); margin-bottom: 8px; }
+        .subtitle { font-size: 0.9rem; opacity: 0.7; margin-bottom: 30px; letter-spacing: 1px; }
 
-        .question-text { font-size: 1.4rem; margin-bottom: 25px; font-weight: 700; }
+        .question-text { font-size: 1.3rem; margin-bottom: 30px; font-weight: 700; line-height: 1.5; }
 
-        /* 按鈕樣式：大圓角、優雅色調 */
         .option-btn {
             display: block;
             width: 100%;
-            padding: 15px 20px;
-            margin-bottom: 15px;
-            border: 2px solid var(--oatmeal-dark);
+            padding: 16px 24px;
+            margin-bottom: 12px;
+            border: 1.5px solid #e0d8cf;
             background-color: transparent;
             color: var(--text-color);
-            border-radius: 50px; /* 大圓角 */
+            border-radius: 60px; /* 大圓角 */
             font-family: 'Noto Serif TC', serif;
-            font-size: 1.1rem;
+            font-size: 1rem;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
         .option-btn:hover {
             background-color: var(--accent-color);
             border-color: var(--accent-color);
             color: white;
-            transform: translateY(-2px);
+            transform: scale(1.02);
         }
 
-        /* 結果頁面樣式 */
         .result-img {
-            width: 200px;
-            height: 200px;
+            width: 100%;
+            max-width: 280px;
+            height: 280px;
             object-fit: cover;
-            border-radius: 50%;
+            border-radius: 30px; /* 圖片大圓角 */
             margin: 20px auto;
-            border: 5px solid var(--oatmeal-bg);
+            display: block;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
         }
 
-        .result-title { font-size: 2rem; margin: 10px 0; color: var(--accent-color); }
-        .result-desc { line-height: 1.8; text-align: left; background: var(--oatmeal-bg); padding: 20px; border-radius: 20px; }
+        .result-title { font-size: 2rem; margin: 15px 0; color: var(--accent-color); font-weight: 700; }
+        .result-desc { 
+            line-height: 1.8; 
+            text-align: left; 
+            background: #f9f7f4; 
+            padding: 25px; 
+            border-radius: 25px; 
+            font-size: 0.95rem;
+        }
 
         .hidden { display: none; }
 
-        .progress-bar {
-            height: 6px;
-            background: var(--oatmeal-dark);
-            border-radius: 3px;
-            margin-bottom: 30px;
-            overflow: hidden;
-        }
-        .progress-fill {
-            height: 100%;
-            background: var(--accent-color);
-            width: 0%;
-            transition: width 0.3s;
-        }
+        .progress-bar { height: 4px; background: #eee; border-radius: 2px; margin-bottom: 40px; }
+        .progress-fill { height: 100%; background: var(--accent-color); width: 0%; transition: width 0.5s ease; }
     </style>
 </head>
 <body>
 
 <div id="quiz-container">
     <div id="start-screen">
-        <h1>✨ 你最像哪種小動物？ ✨</h1>
-        <p class="subtitle">探索隱藏在性格裡的可愛靈魂</p>
-        <button class="option-btn" onclick="startQuiz()">開始測驗</button>
+        <h1>你最像哪種小動物？</h1>
+        <p class="subtitle">FIND YOUR SPIRIT ANIMAL</p>
+        <button class="option-btn" onclick="startQuiz()">開始我的靈魂測驗</button>
     </div>
 
     <div id="quiz-screen" class="hidden">
         <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
-        <div class="question-text" id="question">題目載入中...</div>
-        <div id="options">
-            </div>
+        <div class="question-text" id="question"></div>
+        <div id="options"></div>
     </div>
 
     <div id="result-screen" class="hidden">
         <div id="result-content">
-            <h2 id="animal-name"></h2>
-            <img id="animal-img" class="result-img" src="" alt="animal">
+            <h2 id="animal-name" class="result-title"></h2>
+            <img id="animal-img" class="result-img" src="" alt="result">
             <div class="result-desc" id="animal-desc"></div>
-            <button class="option-btn" style="margin-top: 30px;" onclick="location.reload()">再測一次</button>
+            <button class="option-btn" style="margin-top: 30px; background: var(--accent-color); color: white;" onclick="location.reload()">重新測驗</button>
         </div>
     </div>
 </div>
 
 <script>
     const questions = [
-        { q: "1️⃣ 假日你最常做什麼？", a: {A: "和朋友出去玩", B: "一個人追劇或滑手機", C: "做點有挑戰性的事", D: "睡到自然醒"} },
-        { q: "2️⃣ 在朋友眼中，你比較像？", a: {A: "很好相處、很暖", B: "有點神秘、不太愛說話", C: "很聰明、點子多", D: "安靜可愛型"} },
-        { q: "3️⃣ 遇到不熟的人，你通常會？", a: {A: "主動聊天", B: "先觀察一下", C: "用幽默化解尷尬", D: "有點緊張，但還是會微笑"} },
-        { q: "4️⃣ 你最喜歡的天氣是？", a: {A: "晴天", B: "下雨天", C: "涼爽微風", D: "冬天窩在室內"} },
-        { q: "5️⃣ 如果今天心情不好，你會？", a: {A: "找人聊天", B: "自己消化情緒", C: "做點別的事轉移注意力", D: "吃點好吃的"} },
-        { q: "6️⃣ 在團體中，你通常是？", a: {A: "氣氛製造者", B: "默默聽大家說話的人", C: "出主意的人", D: "跟著大家就好"} },
-        { q: "7️⃣ 你比較嚮往哪種生活？", a: {A: "熱鬧、有很多朋友", B: "安靜、自在", C: "有挑戰、很自由", D: "穩定、舒服"} },
-        { q: "8️⃣ 選一個你最喜歡的詞", a: {A: "陪伴", B: "自由", C: "聰明", D: "溫柔"} }
+        { q: "假日你最常做什麼？", a: {A: "和朋友出去玩", B: "一個人追劇或滑手機", C: "做點有挑戰性的事", D: "睡到自然醒"} },
+        { q: "在朋友眼中，你比較像？", a: {A: "很好相處、很暖", B: "有點神秘、不太愛說話", C: "很聰明、點子多", D: "安靜可愛型"} },
+        { q: "遇到不熟的人，你通常會？", a: {A: "主動聊天", B: "先觀察一下", C: "用幽默化解尷尬", D: "有點緊張，但還是會微笑"} },
+        { q: "你最喜歡的天氣是？", a: {A: "晴天", B: "下雨天", C: "涼爽微風", D: "冬天窩在室內"} },
+        { q: "如果今天心情不好，你會？", a: {A: "找人聊天", B: "自己消化情緒", C: "做點別的事轉移注意力", D: "吃點好吃的"} },
+        { q: "在團體中，你通常是？", a: {A: "氣氛製造者", B: "默默聽大家說話的人", C: "出主意的人", D: "跟著大家就好"} },
+        { q: "你比較嚮往哪種生活？", a: {A: "熱鬧、有很多朋友", B: "安靜、自在", C: "有挑戰、很自由", D: "穩定、舒服"} },
+        { q: "選一個你最喜歡的詞", a: {A: "陪伴", B: "自由", C: "聰明", D: "溫柔"} }
     ];
 
     const results = {
         A: { 
-            name: "🐶 熱情的小狗型", 
-            desc: "你就像一隻充滿活力的小狗！溫暖、忠誠且熱愛社交。你的出現總能帶給身邊的人快樂，大家都很依賴你的開朗能量。",
-            img: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80"
+            name: "🐶 小狗型", 
+            desc: "你是個充滿陽光與正能量的人！你非常重視友誼，總是能給身邊的人帶來溫暖。你的熱情像冬日的暖陽，讓大家都不自覺想靠近你。",
+            img: "
+"
         },
         B: { 
-            name: "🐱 獨立的小貓型", 
-            desc: "你有著貓咪般的優雅與神祕感。雖然外表看起來安靜、甚至有點高冷，但對熟悉的人會展現最柔軟的一面。你很享受獨處的自由。",
-            img: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=400&q=80"
+            name: "🐱 小貓型", 
+            desc: "你有著獨特的性格節奏，不隨波逐流。雖然外表看來慢熱、有距離感，但你內心極其細膩，只把最溫柔的一面留給真正懂你的人。",
+            img: "
+"
         },
         C: { 
-            name: "🦊 聰明的狐狸型", 
-            desc: "你頭腦靈活，觀察力敏銳！遇到問題總能想出獨特的解決辦法。你嚮往自由且充滿挑戰的生活，是不折不扣的智慧派。",
-            img: "https://images.unsplash.com/photo-1516934024742-b461fbc4760e?auto=format&fit=crop&w=400&q=80"
+            name: "🦊 狐狸型", 
+            desc: "你擁有極高的情商與智商，點子超多且不按牌理出牌。你熱愛自由，不喜歡被約束，獨特的魅力讓你在團體中總是閃閃發光。",
+            img: "
+"
         },
         D: { 
-            name: "🐰 溫柔的兔子型", 
-            desc: "你是一個內心非常細膩、溫柔的人。你嚮往穩定與舒服的生活環境，雖然有時候會害羞，但那種親和力讓人非常想保護你。",
-            img: "https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?auto=format&fit=crop&w=400&q=80"
+            name: "🐰 兔子型", 
+            desc: "你有一顆柔軟善良的心，是大家的療癒系存在。你喜歡穩定、舒適的生活，不爭不搶，用最溫柔的方式面對這個世界。",
+            img: "
+"
         }
     };
 
@@ -170,15 +168,13 @@
             document.getElementById('question').innerText = q.q;
             const optionsDiv = document.getElementById('options');
             optionsDiv.innerHTML = '';
-            
-            // 更新進度條
             document.getElementById('progress').style.width = ((currentIdx / questions.length) * 100) + '%';
 
             for (let key in q.a) {
                 const btn = document.createElement('button');
                 btn.className = 'option-btn';
                 btn.innerText = q.a[key];
-                btn.onclick = () => nextQuestion(key);
+                btn.onclick = () => { scores[key]++; currentIdx++; showQuestion(); };
                 optionsDiv.appendChild(btn);
             }
         } else {
@@ -186,22 +182,10 @@
         }
     }
 
-    function nextQuestion(answer) {
-        scores[answer]++;
-        currentIdx++;
-        showQuestion();
-    }
-
     function showResult() {
         document.getElementById('quiz-screen').classList.add('hidden');
         document.getElementById('result-screen').classList.remove('hidden');
-
-        // 計算最高分
-        let maxKey = 'A';
-        for (let key in scores) {
-            if (scores[key] > scores[maxKey]) maxKey = key;
-        }
-
+        let maxKey = Object.keys(scores).reduce((a, b) => scores[a] >= scores[b] ? a : b);
         const result = results[maxKey];
         document.getElementById('animal-name').innerText = result.name;
         document.getElementById('animal-desc').innerText = result.desc;
